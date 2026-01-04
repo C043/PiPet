@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "deskpet"
+name = "PiPet"
 version = "0.1.0"
-description = "Desk pet dashboard"
+description = "Desk pet"
 requires-python = ">=3.9"
 
 [tool.setuptools.packages.find]
