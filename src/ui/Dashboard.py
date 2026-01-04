@@ -7,7 +7,11 @@ class Dashboard(QWidget):
         super().__init__()
         self.setObjectName("dashboard")
 
-        self.title = QLabel("Desk Pet Dashboard")
+        self.title = QLabel()
+        self.title.setTextFormat(Qt.RichText)
+        self.title.setText(
+            '<img src="./src/resources/raspLogo.png" width="40" style="vertical-align:middle;"> <span style="vertical-align:biddle;">Pet Dashboard</span>'
+        )
         self.title.setObjectName("title")
 
         self.status_pill = QLabel("UNKNOWN")
