@@ -61,6 +61,12 @@ class OledEyes:
     def set_happy(self):
         self.eyes.setMood(HAPPY)
 
+    def anim_laugh(self):
+        self.eyes.anim_laugh()
+
+    def anim_confused(self):
+        self.eyes.anim_confused()
+
     def set_tired(self):
         self.eyes.setMood(TIRED)
 

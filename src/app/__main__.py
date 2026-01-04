@@ -27,7 +27,8 @@ eyes_timer.setInterval(10)  # call often; RoboEyes throttles internally
 eyes_timer.timeout.connect(oled_eyes.tick)
 eyes_timer.start()
 
-monitor.became_online.connect(oled_eyes.set_happy)
+monitor.became_online.connect(oled_eyes.anim_laugh)
+monitor.became_offline.connect(oled_eyes.anim_confused)
 
 timer = QTimer()
 timer.setInterval(5_000)
