@@ -3,11 +3,18 @@ from PySide6.QtCore import QTimer
 from services.ServerMonitor import ServerMonitor
 from ui.Dashboard import Dashboard
 from src.services.utils import make_tcp_pinger
+from pathlib import Path
+from services.SoundPlayer import SoundPlayer
 
 app = QApplication([])
 
 pinger = make_tcp_pinger("PEMLAND.aternos.me")
 monitor = ServerMonitor(pinger)
+
+audio_path = Path(__file__).resolve().parent.parent / "resources" / "start.wav"
+
+sound = SoundPlayer(audio_path)
+monitor.became_online.connect(sound.play)
 
 dashboard = Dashboard()
 monitor.status_changed.connect(dashboard.set_status)

@@ -9,10 +9,10 @@ def make_tcp_pinger(host, timeout=2.0):
             status = server.status()
 
             desc = str(getattr(status, "description", "")).lower()
-            if "offline" in desc or "preparing" in desc or "starting" in desc:
-                return False
+            if "pem!" in desc:
+                return True
 
-            return True
+            return False
         except Exception as exc:
             print(f"mcstatus failed: {exc!r}")
             return False

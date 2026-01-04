@@ -11,8 +11,14 @@ class ServerMonitor(QObject):
         self.is_online = None
 
     def tick(self):
-        print("Ticking...")
+        print("Pinging...")
         current = self.pinger()
+
+        if current:
+            print("Server is online.")
+        else:
+            print("Server is offline.")
+
         if self.is_online is None:
             self.is_online = current
             self.status_changed.emit(current)
@@ -23,5 +29,3 @@ class ServerMonitor(QObject):
                 self.became_online.emit()
             self.is_online = current
             self.status_changed.emit(current)
-
-        print(f"Server is {current}.")
