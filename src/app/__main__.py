@@ -11,7 +11,7 @@ app = QApplication([])
 pinger = make_tcp_pinger("PEMLAND.aternos.me")
 monitor = ServerMonitor(pinger)
 
-audio_path = Path(__file__).resolve().parent.parent / "resources" / "start.wav"
+audio_path = Path(__file__).resolve().parent.parent / "resources" / "aternos.wav"
 
 sound = SoundPlayer(audio_path)
 monitor.became_online.connect(sound.play)
