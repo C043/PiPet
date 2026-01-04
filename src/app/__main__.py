@@ -1,3 +1,4 @@
+import random
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QTimer
 from src.services.ServerMonitor import ServerMonitor
@@ -29,6 +30,20 @@ eyes_timer.start()
 
 monitor.became_online.connect(oled_eyes.anim_laugh)
 monitor.became_offline.connect(oled_eyes.anim_confused)
+
+MAX_SECONDS = 10
+change_mood_timer = QTimer()
+
+
+def schedule_next():
+    seconds = random.randint(1, MAX_SECONDS)
+    change_mood_timer.start(seconds * 1000)
+
+
+change_mood_timer.timeout.connect(schedule_next)
+schedule_next()
+
+change_mood_timer.timeout.connect(oled_eyes.set_random_mood)
 
 timer = QTimer()
 timer.setInterval(5_000)

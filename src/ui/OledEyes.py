@@ -1,4 +1,5 @@
 import os
+import random
 
 os.environ.setdefault("SDL_VIDEODRIVER", "dummy")
 os.environ.setdefault("SDL_AUDIODRIVER", "dummy")
@@ -15,7 +16,7 @@ from src.ui.RoboEyesLibrary import (
     HAPPY,
     TIRED,
     ANGRY,
-)  # <- your class
+)
 
 
 class OledEyes:
@@ -58,6 +59,11 @@ class OledEyes:
         self.display.show()
 
     # convenience methods to drive expressions
+    def set_random_mood(self):
+        moodList = [DEFAULT, HAPPY, TIRED, ANGRY]
+
+        self.eyes.setMood(random.choice(moodList))
+
     def set_happy(self):
         self.eyes.setMood(HAPPY)
 
@@ -78,3 +84,10 @@ class OledEyes:
 
     def blink(self):
         self.eyes.blink()
+
+    def toggle_cyclopse(self):
+        isCyclopse = self.eyes.cyclops
+        if isCyclopse:
+            self.eyes.setCyclops(False)
+        else:
+            self.eyes.setCyclops(True)
