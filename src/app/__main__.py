@@ -31,12 +31,12 @@ eyes_timer.start()
 monitor.became_online.connect(oled_eyes.anim_laugh)
 monitor.became_offline.connect(oled_eyes.anim_confused)
 
-MAX_SECONDS = 10
+MAX_SECONDS = 600
 change_mood_timer = QTimer()
 
 
 def schedule_next():
-    seconds = random.randint(1, MAX_SECONDS)
+    seconds = random.randint(300, MAX_SECONDS)
     change_mood_timer.start(seconds * 1000)
 
 
