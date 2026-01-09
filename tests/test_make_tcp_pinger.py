@@ -3,9 +3,12 @@ from src.services.utils import make_tcp_pinger
 
 
 def test_ping_success(monkeypatch):
+    class DummyStatus:
+        description = "pem!"
+
     class DummyServer:
         def status(self, timeout=None):
-            return object()
+            return DummyStatus()
 
     def fake_lookup(addr):
         return DummyServer()
