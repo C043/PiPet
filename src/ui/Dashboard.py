@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame
-from PySide6.QtCore import Qt, QTimer, QUrl
-from PySide6.QtNetwork import QNetworkAccessManager, QNetworkReply, QNetworkRequest
+from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
+from PySide6.QtCore import Qt
+from PySide6.QtNetwork import QNetworkReply
 
 
 class Dashboard(QWidget):
@@ -46,25 +46,18 @@ class Dashboard(QWidget):
         self.setLayout(layout)
         self._apply_style()
 
-        self.net = QNetworkAccessManager(self)
-        self.net.finished.connect(self._on_net_check)
-        self.net_timer = QTimer(self)
-        self.net_timer.setInterval(10000)
-        self.net_timer.timeout.connect(self.check_internet)
-        self.net_timer.start()
-
-        self.check_internet()
-
-    def check_internet(self):
-        req = QNetworkRequest(QUrl("https://client3.google.com/generate_204"))
-        req.setHeader(QNetworkRequest.UserAgentHeader, "Dashboard/1.0")
-        self.net.get(req)
-
-    def _on_net_check(self, reply):
-        online = reply.error() == QNetworkReply.NoError
+    def set_connection_status(self, reply):
+        is_online = reply.error() == QNetworkReply.NoError
         reply.deleteLater()
 
-        self.set_connection_status(online)
+        if is_online:
+            self.connection_status_pill.setProperty("state", "online")
+        else:
+            self.connection_status_pill.setProperty("state", "offline")
+
+        # Re-apply style so QSS updates state
+        self.connection_status_pill.style().unpolish(self.connection_status_pill)
+        self.connection_status_pill.style().polish(self.connection_status_pill)
 
     def set_minecraft_status(self, is_online: bool):
         if is_online:
@@ -79,16 +72,6 @@ class Dashboard(QWidget):
         # Re-apply style so QSS updates state
         self.minecraft_status_pill.style().unpolish(self.minecraft_status_pill)
         self.minecraft_status_pill.style().polish(self.minecraft_status_pill)
-
-    def set_connection_status(self, is_online: bool):
-        if is_online:
-            self.connection_status_pill.setProperty("state", "online")
-        else:
-            self.connection_status_pill.setProperty("state", "offline")
-
-        # Re-apply style so QSS updates state
-        self.connection_status_pill.style().unpolish(self.connection_status_pill)
-        self.connection_status_pill.style().polish(self.connection_status_pill)
 
     def _apply_style(self):
         self.setStyleSheet(

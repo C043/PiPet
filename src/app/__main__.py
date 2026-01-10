@@ -1,6 +1,7 @@
 import random
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QTimer
+from services.ConnectionMonitor import ConnectionMonitor
 from src.services.ServerMonitor import ServerMonitor
 from src.ui.Dashboard import Dashboard
 from src.services.utils import make_tcp_pinger
@@ -12,6 +13,14 @@ app = QApplication([])
 
 pinger = make_tcp_pinger("PEMLAND.aternos.me")
 monitor = ServerMonitor(pinger)
+connectionMonitor = ConnectionMonitor()
+
+net_timer = QTimer()
+net_timer.setInterval(10000)
+net_timer.timeout.connect(connectionMonitor.check_internet)
+net_timer.start()
+
+connectionMonitor.check_internet()
 
 audio_path = Path(__file__).resolve().parent.parent / "resources" / "aternos.wav"
 
@@ -20,6 +29,7 @@ monitor.became_online.connect(sound.play)
 
 dashboard = Dashboard()
 monitor.status_changed.connect(dashboard.set_minecraft_status)
+connectionMonitor.net.finished.connect(dashboard.set_connection_status)
 
 oled_eyes = OledEyes(width=128, height=64, addr=0x3C)
 
