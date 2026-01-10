@@ -19,7 +19,7 @@ sound = SoundPlayer(audio_path)
 monitor.became_online.connect(sound.play)
 
 dashboard = Dashboard()
-monitor.status_changed.connect(dashboard.set_status)
+monitor.status_changed.connect(dashboard.set_minecraft_status)
 
 oled_eyes = OledEyes(width=128, height=64, addr=0x3C)
 

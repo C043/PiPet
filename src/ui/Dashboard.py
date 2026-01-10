@@ -14,39 +14,39 @@ class Dashboard(QWidget):
         )
         self.title.setObjectName("title")
 
-        self.status_pill = QLabel("UNKNOWN")
-        self.status_pill.setObjectName("statusPill")
-        self.status_pill.setAlignment(Qt.AlignCenter)
+        self.minecraft_status_pill = QLabel("UNKNOWN")
+        self.minecraft_status_pill.setObjectName("minecraftStatusPill")
+        self.minecraft_status_pill.setAlignment(Qt.AlignCenter)
 
-        self.status_text = QLabel("Server status not checked yet.")
-        self.status_text.setObjectName("statusText")
-        self.status_text.setAlignment(Qt.AlignCenter)
+        self.minecraft_status_text = QLabel("Server status not checked yet.")
+        self.minecraft_status_text.setObjectName("statusText")
+        self.minecraft_status_text.setAlignment(Qt.AlignCenter)
 
         layout = QVBoxLayout()
         layout.setContentsMargins(40, 40, 40, 40)
         layout.setSpacing(24)
 
         layout.addWidget(self.title)
-        layout.addWidget(self.status_pill)
-        layout.addWidget(self.status_text)
+        layout.addWidget(self.minecraft_status_pill)
+        layout.addWidget(self.minecraft_status_text)
         layout.addStretch()
 
         self.setLayout(layout)
         self._apply_style()
 
-    def set_status(self, is_online: bool):
+    def set_minecraft_status(self, is_online: bool):
         if is_online:
-            self.status_pill.setText("ONLINE")
-            self.status_pill.setProperty("state", "online")
-            self.status_text.setText("Minecraft server is online.")
+            self.minecraft_status_pill.setText("ONLINE")
+            self.minecraft_status_pill.setProperty("state", "online")
+            self.minecraft_status_text.setText("Minecraft server is online.")
         else:
-            self.status_pill.setText("OFFLINE")
-            self.status_pill.setProperty("state", "offline")
-            self.status_text.setText("Minecraft server is offline.")
+            self.minecraft_status_pill.setText("OFFLINE")
+            self.minecraft_status_pill.setProperty("state", "offline")
+            self.minecraft_status_text.setText("Minecraft server is offline.")
 
         # Re-apply style so QSS updates state
-        self.status_pill.style().unpolish(self.status_pill)
-        self.status_pill.style().polish(self.status_pill)
+        self.minecraft_status_pill.style().unpolish(self.minecraft_status_pill)
+        self.minecraft_status_pill.style().polish(self.minecraft_status_pill)
 
     def _apply_style(self):
         self.setStyleSheet(
@@ -60,7 +60,7 @@ class Dashboard(QWidget):
               font-size: 36px;
               font-weight: 600;
           }
-          #statusPill {
+          #minecraftStatusPill {
               color: white;
               font-size: 48px;
               font-weight: 700;
@@ -68,10 +68,10 @@ class Dashboard(QWidget):
               border-radius: 16px;
               background: #555;
           }
-          #statusPill[state="online"] {
+          #minecraftStatusPill[state="online"] {
               background: #2ecc71;
           }
-          #statusPill[state="offline"] {
+          #minecraftStatusPill[state="offline"] {
               background: #e74c3c;
           }
           #statusText {
