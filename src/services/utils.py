@@ -1,4 +1,3 @@
-import socket
 from mcstatus import JavaServer
 
 
