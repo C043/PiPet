@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
+from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 from PySide6.QtNetwork import QNetworkReply
 
@@ -8,12 +9,12 @@ class Dashboard(QWidget):
         super().__init__()
         self.setObjectName("dashboard")
 
-        self.title = QLabel()
-        self.title.setTextFormat(Qt.RichText)
-        self.title.setText(
-            '<img src="./src/resources/raspLogo.png" width="40" style="vertical-align:middle;"> <span style="vertical-align:biddle;">Pet Dashboard</span>'
-        )
-        self.title.setObjectName("title")
+        self.title_icon = QLabel()
+        pixmap = QPixmap("./src/resources/raspLogo.png")
+        self.title_icon.setPixmap(pixmap.scaledToWidth(40, Qt.SmoothTransformation))
+
+        self.title_text = QLabel("Pet Dashboard")
+        self.title_text.setObjectName("title")
 
         self.connection_status_pill = QLabel()
         self.connection_status_pill.setFixedSize(14, 14)
@@ -21,8 +22,9 @@ class Dashboard(QWidget):
         self.connection_status_pill.setAlignment(Qt.AlignCenter)
 
         title_row = QHBoxLayout()
-        title_row.setSpacing(12)
-        title_row.addWidget(self.title, alignment=Qt.AlignVCenter)
+        title_row.setSpacing(8)
+        title_row.addWidget(self.title_icon, alignment=Qt.AlignVCenter)
+        title_row.addWidget(self.title_text, alignment=Qt.AlignVCenter)
         title_row.addWidget(self.connection_status_pill, alignment=Qt.AlignVCenter)
         title_row.addStretch()
 
