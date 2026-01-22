@@ -28,6 +28,12 @@ sound = SoundPlayer(audio_path)
 monitor.became_online.connect(sound.play)
 
 dashboard = Dashboard()
+
+timeTimer = QTimer()
+timeTimer.timeout.connect(dashboard.update_time)
+timeTimer.start(1000)
+dashboard.update_time()
+
 monitor.status_changed.connect(dashboard.set_minecraft_status)
 connectionMonitor.net.finished.connect(dashboard.set_connection_status)
 

@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
 from PySide6.QtGui import QPixmap
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QTime, Qt
 from PySide6.QtNetwork import QNetworkReply
 
 
@@ -21,12 +21,21 @@ class Dashboard(QWidget):
         self.connection_status_pill.setObjectName("connectionStatusPill")
         self.connection_status_pill.setAlignment(Qt.AlignCenter)
 
+        self.current_time = QLabel()
+        self.current_time.setWindowTitle("Current Time")
+        self.current_time.setObjectName("currentTime")
+        self.current_time.show()
+
         title_row = QHBoxLayout()
         title_row.setSpacing(8)
         title_row.addWidget(self.title_icon, alignment=Qt.AlignVCenter)
         title_row.addWidget(self.title_text, alignment=Qt.AlignVCenter)
         title_row.addWidget(self.connection_status_pill, alignment=Qt.AlignVCenter)
-        title_row.addStretch()
+
+        title_row.addStretch(1)
+        title_row.addWidget(
+            self.current_time, alignment=Qt.AlignVCenter | Qt.AlignRight
+        )
 
         self.minecraft_status_pill = QLabel("UNKNOWN")
         self.minecraft_status_pill.setObjectName("minecraftStatusPill")
@@ -43,6 +52,7 @@ class Dashboard(QWidget):
         layout.addLayout(title_row)
         layout.addWidget(self.minecraft_status_pill)
         layout.addWidget(self.minecraft_status_text)
+
         layout.addStretch()
 
         self.setLayout(layout)
@@ -75,6 +85,9 @@ class Dashboard(QWidget):
         self.minecraft_status_pill.style().unpolish(self.minecraft_status_pill)
         self.minecraft_status_pill.style().polish(self.minecraft_status_pill)
 
+    def update_time(self):
+        self.current_time.setText(QTime.currentTime().toString("HH:mm:ss"))
+
     def _apply_style(self):
         self.setStyleSheet(
             """
@@ -96,6 +109,11 @@ class Dashboard(QWidget):
           }
           #connectionStatusPill[state="offline"] {
               background: #e74c3c;
+          }
+          #currentTime {
+              color: #e8f1f2;
+              font-size: 36px;
+              font-weight: 600;
           }
           #minecraftStatusPill {
               color: white;
